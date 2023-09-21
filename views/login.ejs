@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login Form</title>
+</head>
+<style>
+    .parent {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        grid-template-rows: repeat(5, 1fr);
+        grid-column-gap: 0px;
+        grid-row-gap: 0px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .div1 {
+        height: 200px;
+        background-color: bisque;
+        grid-area: 1 / 1 / 6 / 2;
+    }
+    .div2 {
+        height: 200px;
+        background-color: firebrick;
+        grid-area: 1 / 2 / 6 / 3;
+    }
+</style>
+<body>
+<div class="parent">
+    <div class="div1"> </div>
+    <div class="div2"> </div>
+</div>
+</body>
+</html>

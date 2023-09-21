@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Signup Form</title>
+</head>
+<style>
+    body{
+        min-height: 100vh;
+        align-items: center;
+        justify-content: center;
+        background: #4070f4;
+        display: flex;
+    }
+    .formOuterDiv{
+        background-color: darkgray;
+        margin-left: auto;
+        margin-right: auto;
+        border-radius: 10px;
+        padding: 20px;
+    }
+    .inputBox{
+        width: 70%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .form-button{
+        border-radius: 10px;
+        background-color: darkcyan;
+    }
+
+    @media (max-width: 768px) {
+        .inputBox{
+            max-width: 300px;
+        }
+    }
+
+    @media (max-width: 900px) {
+        .form-title{
+            font-size: 20px;
+        }
+    }
+
+    @media (max-width: 530px) {
+        .form-title{
+            font-size: 15px;
+        }
+    }
+</style>
+<body>
+<form action="/api/signup" method="post" enctype="multipart/form-data">
+    <div class="formOuterDiv">
+        <h1 class = "form-title">Registration</h1>
+        <hr>
+        <% if (typeof emailExistsValidation !== "undefined") { %>
+            <div>
+                <p style="background-color: crimson;border-radius: 5px"><%= emailExistsValidation.msg %></p>
+            </div>
+        <% } %>
+        <label>Name:</label>
+        <input class = "inputBox" type="text" name="name" placeholder="Name"><br><br>
+        <% if(typeof validationMessage !== "undefined" && validationMessage.name !== "undefined") {%>
+        <span style="background-color: crimson;border-radius: 5px"><%= validationMessage.name.msg%></span>
+        <%}%><br>
+        <label>Email:</label>
+        <input class = "inputBox" type="text" name="email" placeholder="Email"><br><br>
+        <% if(typeof validationMessage !== "undefined" && validationMessage.email !== "undefined") {%>
+            <span style="background-color: crimson;border-radius: 5px"><%= validationMessage.email.msg%></span>
+        <%}%><br>
+        <label>Password:</label>
+        <input class = "inputBox" type="password" name="password" placeholder="Password"><br><br>
+        <% if(typeof validationMessage !== "undefined" && validationMessage.password !== "undefined") {%>
+            <span style="background-color: crimson;border-radius: 5px"><%= validationMessage.password.msg%></span>
+        <%}%><br>
+        <input style="display: none" type="text" name="usertype" value="user">
+        <button class = "form-button">Submit</button>
+    </div>
+</form>
+</body>
+</html>
