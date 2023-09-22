@@ -1,50 +1,49 @@
-const {validationResult} = require("../validators/UpdatePasswordValidation");
-const {compare, hash} = require("bcrypt");
+const { validationResult } = require("../validators/UpdatePasswordValidation");
+const { compare, hash } = require("bcrypt");
 const userModel = require('../model/User');
 
 async function updatePassword(req, res) {
-    const errors = validationResult(req);
-    if(errors.isEmpty()) {
-        const incomingPassword = req.body.password;
-        const incomingConfirmPassword = req.body.confirmPassword;
-        if (incomingConfirmPassword !== incomingPassword) {
-            res.status(401).json({
-                message: "Confirm Password should be same as password field"
-            })
+    try {
+        const errors = validationResult(req);
+
+        if (!errors.isEmpty()) {
+            return res.status(400).json(errors.array().map(error => error.msg));
         }
-        const user = await userModel.findOne({email: req.query.email});
-        compare(req.body.password, user.password, (err, result) => {
-            // console.log(result)
-            if (err) {
-                res.send(err);
-            } else if (result) {
-                res.status(401).json({
-                    message: "You cannot change password as same as the previous password"
-                });
-            }
-        });
+
+        const user = await userModel.findOne({ email: req.query.email });
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        const passwordsMatch = await compare(req.body.password, user.password);
+
+        if (passwordsMatch) {
+            return res.status(401).json({
+                message: "You cannot change the password to the same as the previous password"
+            });
+        }
+
         const updatedData = await userModel.updateOne(
-            {
-                email: req.query.email
-            },
+            { email: req.query.email },
             {
                 $set: {
-                    password: await hash(req.body.password,10)
+                    password: await hash(req.body.password, 10)
                 }
-            });
-        if(updatedData.modifiedCount > 0){
-            res.status(200).json({
+            }
+        );
+
+        if (updatedData.modifiedCount > 0) {
+            return res.status(200).json({
                 message: "Password updated successfully"
-            })
-        }else{
-            res.status(500).json({
-                message: "Failed to update password"
-            })
+            });
+        } else {
+            return res.status(500).json({
+                message: "Failed to update the password"
+            });
         }
-    } else {
-        res.status(500).send(errors.array().map(error => {
-            return error.msg;
-        }));
+    } catch (err) {
+        return res.status(500).json({ message: "An error occurred" });
     }
 }
 
