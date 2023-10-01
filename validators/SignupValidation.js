@@ -1,4 +1,5 @@
 const {check, validationResult} = require("express-validator");
+const userModel = require('../model/User');
 const validatedFields = [
     check('name', 'Name is required')
         .notEmpty()
@@ -13,7 +14,8 @@ const validatedFields = [
         .withMessage('Invalid email format')
         .bail()
         .isString()
-        .withMessage('Email must be a string'),
+        .withMessage('Email must be a string')
+        .custom(emailInUseValidation),
 
     check('password', 'Password is required')
         .notEmpty()
@@ -31,6 +33,14 @@ const validatedFields = [
         .withMessage('Usertype must be a string')
 ]
 
+async function emailInUseValidation(value){
+    const checkEmail = await userModel.find({'email': value});
+    if(checkEmail){
+        throw new Error(`Looks like this email is already registered`);
+    }else{
+        return true;
+    }
+}
 
 module.exports = {
     validatedFields,

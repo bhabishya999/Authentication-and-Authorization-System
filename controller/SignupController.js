@@ -12,19 +12,10 @@ async function register(req, res) {
                 password: await hash(req.body.password, 10),
                 usertype: req.body.usertype
             });
-
-            const checkEmail = await userModel.find({email: req.body.email});
-
-            if (checkEmail.length !== 0) {
-                res.status(409).json({
-                    message: "Looks like this email is already registered"
-                })
-            } else {
-                await data.save();
-                res.status(200).json({
-                    message: "Registered successfully"
-                });
-            }
+            await data.save();
+            res.status(200).json({
+                message: "Registered successfully"
+            });
         } else {
             res.status(400).send(errors.array().map(error => {
                 return error.msg;

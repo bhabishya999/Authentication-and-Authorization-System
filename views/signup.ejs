@@ -17,13 +17,12 @@
     }
     .formOuterDiv{
         background-color: darkgray;
-        margin-left: auto;
-        margin-right: auto;
         border-radius: 10px;
         padding: 20px;
+        width: 120%;
     }
     .inputBox{
-        width: 70%;
+        width: 80%;
         padding: 10px;
         border: 1px solid #ccc;
         border-radius: 5px;
@@ -59,23 +58,23 @@
         <hr>
         <% if (typeof emailExistsValidation !== "undefined") { %>
             <div>
-                <p style="background-color: crimson;border-radius: 5px"><%= emailExistsValidation.msg %></p>
+                <p style="background-color: crimson"><%= emailExistsValidation.msg %></p>
             </div>
         <% } %>
-        <label>Name:</label>
+        <label>Name:</label><br>
         <input class = "inputBox" type="text" name="name" placeholder="Name"><br><br>
-        <% if(typeof validationMessage !== "undefined" && validationMessage.name !== "undefined") {%>
-        <span style="background-color: crimson;border-radius: 5px"><%= validationMessage.name.msg%></span>
+        <% if(typeof validationMessage !== "undefined" && typeof validationMessage.name !== "undefined") {%>
+        <span style="background-color: crimson"><%= validationMessage.name.msg%></span>
         <%}%><br>
-        <label>Email:</label>
+        <label>Email:</label><br>
         <input class = "inputBox" type="text" name="email" placeholder="Email"><br><br>
-        <% if(typeof validationMessage !== "undefined" && validationMessage.email !== "undefined") {%>
-            <span style="background-color: crimson;border-radius: 5px"><%= validationMessage.email.msg%></span>
+        <% if(typeof validationMessage !== "undefined" && typeof validationMessage.email !== "undefined") {%>
+            <span style="background-color: crimson"><%= validationMessage.email.msg%></span>
         <%}%><br>
-        <label>Password:</label>
+        <label>Password:</label><br>
         <input class = "inputBox" type="password" name="password" placeholder="Password"><br><br>
-        <% if(typeof validationMessage !== "undefined" && validationMessage.password !== "undefined") {%>
-            <span style="background-color: crimson;border-radius: 5px"><%= validationMessage.password.msg%></span>
+        <% if(typeof validationMessage !== "undefined" && typeof validationMessage.password !== "undefined") {%>
+            <span style="background-color: crimson"><%= validationMessage.password.msg%></span>
         <%}%><br>
         <input style="display: none" type="text" name="usertype" value="user">
         <button class = "form-button">Submit</button>
