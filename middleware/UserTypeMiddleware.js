@@ -7,7 +7,7 @@ async function userType(req, res, next) {
             req.isAdmin = true;
             break;
         case 'user':
-            req.isAdmin = false;
+            req.isUser = true;
             break;
     }
     next();
