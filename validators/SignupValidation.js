@@ -34,7 +34,7 @@ const validatedFields = [
 ]
 
 async function emailInUseValidation(value){
-    const checkEmail = await userModel.find({'email': value});
+    const checkEmail = await userModel.findOne({'email': value});
     if(checkEmail){
         throw new Error(`Looks like this email is already registered`);
     }else{
